@@ -1,5 +1,11 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'node:latest'
+      args '-p 3000:3000'
+    }
+
+  }
   stages {
     stage('Git checkout') {
       steps {
@@ -13,8 +19,8 @@ pipeline {
     stage('Application Build') {
       steps {
         script {
-            sh 'chmod +x scripts/build.sh'
-            sh 'scripts/build.sh'
+          sh 'chmod +x scripts/build.sh'
+          sh 'scripts/build.sh'
         }
 
       }
@@ -23,7 +29,7 @@ pipeline {
     stage('Tests') {
       steps {
         script {
-            sh 'scripts/test.sh'
+          sh 'scripts/test.sh'
         }
 
       }
@@ -32,7 +38,7 @@ pipeline {
     stage('Docker Image Build') {
       steps {
         script {
-            docker.build("${registry}:${env.Build_ID}")
+          docker.build("${registry}:${env.Build_ID}")
         }
 
       }
@@ -51,7 +57,6 @@ pipeline {
     }
 
   }
-
   environment {
     registry = 'asauchyts/cicd-task'
   }
