@@ -19,6 +19,7 @@ pipeline {
     stage('Application Build') {
       steps {
         script {
+          sh 'npm cache clean --force'
           sh 'chmod +x scripts/build.sh'
           sh 'scripts/build.sh'
         }
