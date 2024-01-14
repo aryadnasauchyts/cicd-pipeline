@@ -19,7 +19,7 @@ pipeline {
     stage('Application Build') {
       steps {
         script {
-          sh 'npm cache clean --force'
+          sh 'chown -R 988:987 "/.npm'
           sh 'chmod +x scripts/build.sh'
           sh 'scripts/build.sh'
         }
